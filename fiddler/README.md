@@ -53,6 +53,26 @@
 	    oSession.hostname = "api.mobile.yykk.com"
 		  }
 ```
+
+2019.04.26 手机模拟添加cookie（区别于种cookie 在onBeforeResponse里）
+
+* 删除所有的cookie oSession.oRequest.headers.Remove("Cookie");
+
+* 新建cookie oSession.oRequest.headers.Add("Cookie", "username=testname;testpassword=P@ssword1");
+
+注意: Fiddler script不能直接删除或者编辑单独的一个cookie,因为他是一个string内容， 你可以使用replace方法或者正则表达式的方法去操作cookie的string
+
+```
+if (oSession.HostnameIs("******") && oSession.oRequest.headers.Exists("Cookie") ) {
+
+    var sCookie = oSession.oRequest["Cookie"]; 
+    //用replace方法或者正则表达式的方法去操作cookie的string
+    //sCookie = sCookie.Replace("cookieName=", "ignoreme="); 
+    sCookie = sCookie + ";tt_spver=1";
+
+    oSession.oRequest["Cookie"] = sCookie; 
+}
+```
 	
 ## +++++++++++++++++beforerespond+++++++++++++++++++++
 
